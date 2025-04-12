@@ -1,4 +1,5 @@
 import tkinter as tk
+import customtkinter as ctk
 from tkinter import ttk, messagebox
 import mysql.connector
 from tkinter import PhotoImage
@@ -19,8 +20,31 @@ class AppStyle:
         self.primary_color = "#4a6fa5"
         self.secondary_color = "#166088"
         self.accent_color = "#4fc3f7"
-        self.font = ("Arial", 10)
+        self.font = ("Arial", 15)
         self.title_font = ("Arial", 12, "bold")
+
+class btnStyle:
+    def __init__(self):
+        self.btn_color = "#166088"
+        self.btnfont = ("Arial", 25 , "bold")
+        self.hover_color = "green"
+        self.cor_rad= 3
+        self.width = 200
+        self.height = 55
+        self.brod_bottom = 2
+        self.brod_right = 2
+        self.brod_color = "black"
+
+class btn2Style:
+    def __init__(self):
+        self.btn_color = "#196E78"
+        self.btnfont = ("Arial", 20, )
+        self.hover_color = "white"
+        self.cor_rad= 3
+        self.width = 150
+        self.height = 40
+        self.brod_bottom = 2
+        self.brod_color = "black"
 
 
 #Home page
@@ -28,6 +52,7 @@ class MainApp:
     def __init__(self, root):
         self.root = root
         self.style = AppStyle()
+        self.btnstyle = btnStyle()
         self.setup_ui()
         
     def setup_ui(self):
@@ -35,11 +60,14 @@ class MainApp:
         self.root.geometry("800x600")
         self.root.configure(bg=self.style.bg_color)
         
-        header_frame = tk.Frame(self.root, bg=self.style.primary_color, height=80)
+        header_frame = tk.Frame(self.root, bg=self.style.primary_color,
+                                height=80, highlightthickness=1,  
+                                highlightbackground="black")
         header_frame.pack(fill=tk.X)
         
         title_label = tk.Label(header_frame, text="نظام إدارة المنسوجات", 
-                             font=("Arial", 18, "bold"), bg=self.style.primary_color, fg="white")
+                               font=("Arial", 18, "bold"),
+                               bg=self.style.primary_color, fg="white")
         title_label.pack(pady=20)
         
         content_frame = tk.Frame(self.root, bg=self.style.bg_color)
@@ -47,37 +75,63 @@ class MainApp:
         
         btn_frame = tk.Frame(content_frame, bg=self.style.bg_color)
         btn_frame.pack(pady=20)
-        
-        suppliers_btn = tk.Button(btn_frame, text="إدارة الموردين", font=self.style.title_font,
-                                bg=self.style.secondary_color, fg="white", width=20, height=2,
-                                command=self.open_suppliers)
+
+        # زر إدارة الموردين
+        suppliers_btn = ctk.CTkButton(btn_frame, text="إدارة الموردين", font=self.btnstyle.btnfont,
+                                      fg_color="#166088", corner_radius=self.btnstyle.cor_rad,
+                                      width=self.btnstyle.width, height=self.btnstyle.height,
+                                      border_color=self.btnstyle.brod_color,
+                                      hover_color=self.btnstyle.hover_color,
+                                      border_width=self.btnstyle.brod_bottom,
+                                      command=self.open_suppliers)
         suppliers_btn.pack(pady=10, padx=10, side=tk.LEFT)
-        
-        fabrics_btn = tk.Button(btn_frame, text="إدارة الأنسجة", font=self.style.title_font,
-                              bg=self.style.secondary_color, fg="white", width=20, height=2,
-                              command=self.open_fabrics)
+
+        # زر إدارة الأنسجة
+        fabrics_btn = ctk.CTkButton(btn_frame, text="إدارة الأنسجة", font=self.btnstyle.btnfont,
+                                    fg_color="#166088", corner_radius=self.btnstyle.cor_rad,
+                                    width=self.btnstyle.width, height=self.btnstyle.height,
+                                    border_color=self.btnstyle.brod_color,
+                                    hover_color=self.btnstyle.hover_color,
+                                    border_width=self.btnstyle.brod_bottom,
+                                    command=self.open_fabrics)
         fabrics_btn.pack(pady=10, padx=10, side=tk.LEFT)
-        
-        workers_btn = tk.Button(btn_frame, text="إدارة العمال", font=self.style.title_font,
-                              bg=self.style.secondary_color, fg="white", width=20, height=2,
-                              command=self.open_workers)
+
+        # زر إدارة العمال
+        workers_btn = ctk.CTkButton(btn_frame, text="إدارة العمال", font=self.btnstyle.btnfont,
+                                    fg_color="#166088", corner_radius=self.btnstyle.cor_rad,
+                                    width=self.btnstyle.width, height=self.btnstyle.height,
+                                    border_color=self.btnstyle.brod_color,
+                                    hover_color=self.btnstyle.hover_color,
+                                    border_width=self.btnstyle.brod_bottom,
+                                    command=self.open_workers)
         workers_btn.pack(pady=10, padx=10, side=tk.LEFT)
-        
-        sales_btn = tk.Button(btn_frame, text="إدارة المبيعات", font=self.style.title_font,
-                            bg=self.style.secondary_color, fg="white", width=20, height=2,
-                            command=self.open_sales)
+
+        # زر إدارة المبيعات
+        sales_btn = ctk.CTkButton(btn_frame, text="إدارة المبيعات", font=self.btnstyle.btnfont,
+                                  fg_color="#166088", corner_radius=self.btnstyle.cor_rad,
+                                  width=self.btnstyle.width, height=self.btnstyle.height,
+                                  border_color=self.btnstyle.brod_color,
+                                  hover_color=self.btnstyle.hover_color,
+                                  border_width=self.btnstyle.brod_bottom,
+                                  command=self.open_sales)
         sales_btn.pack(pady=10, padx=10, side=tk.LEFT)
-        
-        inventory_btn = tk.Button(btn_frame, text="إدارة المخزون", font=self.style.title_font,
-                                bg=self.style.secondary_color, fg="white", width=20, height=2,
-                                command=self.open_inventory)
+
+        # زر إدارة المخزون
+        inventory_btn = ctk.CTkButton(btn_frame, text="إدارة المخزون", font=self.btnstyle.btnfont,
+                                      fg_color="#166088", corner_radius=self.btnstyle.cor_rad,
+                                      width=self.btnstyle.width, height=self.btnstyle.height,
+                                      border_color=self.btnstyle.brod_color,
+                                      hover_color=self.btnstyle.hover_color,
+                                      border_width=self.btnstyle.brod_bottom,
+                                      command=self.open_inventory)
         inventory_btn.pack(pady=10, padx=10, side=tk.LEFT)
         
+        # رسالة الترحيب
         info_frame = tk.Frame(content_frame, bg=self.style.bg_color)
         info_frame.pack(pady=20)
         
         info_label = tk.Label(info_frame, text="مرحباً بك في نظام إدارة المنسوجات\nاختر الوحدة التي تريد العمل عليها",
-                             font=self.style.font, bg=self.style.bg_color)
+                              font=("Arial", 20), bg=self.style.bg_color)
         info_label.pack()
         
     def open_suppliers(self):
@@ -89,83 +143,205 @@ class MainApp:
         self.root.withdraw()
         fabrics_window = tk.Toplevel()
         FabricsPage(fabrics_window, self)
-        
+
     def open_workers(self):
         self.root.withdraw()
         workers_window = tk.Toplevel()
         WorkersPage(workers_window, self)
-        
+
     def open_sales(self):
         self.root.withdraw()
         sales_window = tk.Toplevel()
         SalesPage(sales_window, self)
-        
+
     def open_inventory(self):
         self.root.withdraw()
         inventory_window = tk.Toplevel()
         InventoryPage(inventory_window, self)
+
 
 # Suppliers page
 class SuppliersPage:
     def __init__(self, window, main_app):
         self.window = window
         self.main_app = main_app
-        self.style = AppStyle()
+        self.style = AppStyle()  
+        self.btnstyle= btn2Style()
         self.setup_ui()
         
-
     def setup_ui(self):
         self.window.title("إدارة الموردين")
         self.window.geometry("1000x700")
         self.window.configure(bg=self.style.bg_color)
         
-        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60)
+        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60
+                                ,highlightthickness=1,  
+                                highlightbackground="black")
         header_frame.pack(fill=tk.X)
         
         title_label = tk.Label(header_frame, text="إدارة الموردين", 
                             font=("Arial", 16, "bold"), bg=self.style.primary_color, fg="white")
         title_label.pack(pady=15)
-
-        top_buttons_frame = tk.Frame(self.window, bg=self.style.bg_color)
-        top_buttons_frame.pack(fill=tk.X, pady=10)
         
-        tk.Button(top_buttons_frame, text="عرض الكل", font=self.style.font, 
-                command=self.show_suppliers).pack(side=tk.LEFT, padx=5)
-        tk.Button(top_buttons_frame, text="الانتقال إلى الأنسجة", font=self.style.font,
-                command=self.open_fabrics).pack(side=tk.LEFT, padx=5)
-        tk.Button(top_buttons_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
-                bg="red", command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
-
         main_frame = tk.Frame(self.window, bg=self.style.bg_color)
         main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
         
-        form_frame = tk.LabelFrame(main_frame, text="بيانات المورد", font=self.style.title_font,
-                                bg=self.style.bg_color, padx=10, pady=10)
+        
+        form_frameManage = tk.LabelFrame(main_frame, text="Manage", font=self.style.title_font,
+                                    bg=self.style.bg_color, padx=10, pady=10)
+        form_frameManage.pack(fill=tk.X, pady=10)
+        
+        ctk.CTkButton(form_frameManage, text="عرض الكل", font=self.btnstyle.btnfont,
+                    hover_color=self.btnstyle.hover_color ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.show_suppliers ).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        # tk.Button(form_frameManage, text="الانتقال إلى الأنسجة", font=self.style.font,
+        #         command=self.open_fabrics).pack(side=tk.LEFT, padx=5)
+        
+        ctk.CTkButton(form_frameManage, text="الانتقال إلى الأنسجة",
+                    font=self.btnstyle.btnfont,
+                    hover_color=self.btnstyle.hover_color ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.open_fabrics ).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        ctk.CTkButton(form_frameManage, text="العودة للصفحة الرئيسية " , font=self.btnstyle.btnfont,
+                    hover_color=self.btnstyle.hover_color ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.back_to_main).pack(side=tk.RIGHT, padx=5 , pady =5)
+        # tk.Button(top_buttons_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
+        #         bg="red", command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        form_frame = tk.LabelFrame(main_frame, text=": بيانات المورد", font=self.style.title_font,
+                                    bg=self.style.bg_color, padx=10, pady=10)
         form_frame.pack(fill=tk.X, pady=10)
         
-        tk.Label(form_frame, text="اسم المورد:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=0, sticky="e", padx=5, pady=5)
-        self.name_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.name_entry.grid(row=0, column=1, padx=5, pady=5)
+        tk.Label(form_frame, text=": اسم المورد",
+                font=self.style.font,
+                bg=self.style.bg_color).grid(
+                row=0,
+                column=5,
+                sticky="e",
+                padx=5, pady=5
+                )
+        self.name_entry = tk.Entry(form_frame
+                                , font=self.style.font
+                                , width=30)
+        self.name_entry.grid(row=0
+                            , column=0
+                            , padx=5
+                            , pady=5)
         
-        tk.Label(form_frame, text="بيانات التواصل:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=0, sticky="e", padx=5, pady=5)
-        self.contact_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.contact_entry.grid(row=1, column=1, padx=5, pady=5)
+        tk.Label(form_frame,
+                text=": بيانات التواصل"
+                , font=self.style.font
+                , bg=self.style.bg_color).grid(row=1
+                                            , column=5
+                                            , sticky="e"
+                                            , padx=5
+                                            , pady=5)
+        self.contact_entry = tk.Entry(form_frame,
+                                    font=self.style.font
+                                    , width=30)
+        self.contact_entry.grid(row=1
+                                , column=0
+                                , padx=5
+                                , pady=5)
         
-        tk.Label(form_frame, text="العنوان:", font=self.style.font, bg=self.style.bg_color).grid(row=2, column=0, sticky="e", padx=5, pady=5)
-        self.address_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.address_entry.grid(row=2, column=1, padx=5, pady=5)
+        tk.Label(form_frame,
+                text=": العنوان"
+                , font=self.style.font
+                , bg=self.style.bg_color).grid(row=2
+                                            , column=5
+                                            , sticky="e"
+                                            , padx=5
+                                            , pady=5)
+                
+        self.address_entry = tk.Entry(form_frame
+                                    , font=self.style.font
+                                    , width=30)
+        self.address_entry.grid(row=2
+                                , column=0
+                                , padx=5
+                                , pady=5)
         
         btn_frame = tk.Frame(form_frame, bg=self.style.bg_color)
         btn_frame.grid(row=3, column=0, columnspan=2, pady=10)
         
-        tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
-                command=self.add_supplier).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
-                command=self.update_supplier).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
-                command=self.delete_supplier).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
-                command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        # tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
+        #         command=self.add_supplier).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame, text="إضافة" ,font=self.btnstyle.btnfont,
+                    hover_color="green" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.add_supplier).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        # tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
+        #         command=self.update_supplier).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame, text="تحديث"  ,font=self.btnstyle.btnfont,
+                    hover_color="green",
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.update_supplier).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        
+        # tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
+        #         command=self.delete_supplier).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame, text="حذف" ,font=self.btnstyle.btnfont,
+                    hover_color="red",
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.delete_supplier).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        # tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
+        #         command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame,text="مسح الحقول" ,font=self.btnstyle.btnfont,
+                    hover_color="red" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
         
         list_frame = tk.LabelFrame(main_frame, text="قائمة الموردين", font=self.style.title_font,
                                 bg=self.style.bg_color, padx=10, pady=10)
@@ -190,12 +366,10 @@ class SuppliersPage:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.tree.bind("<ButtonRelease-1>", self.on_tree_select)
-
     def add_supplier(self):
         name = self.name_entry.get()
         contact = self.contact_entry.get()
         address = self.address_entry.get()
-
         if not name or not contact or not address:
             messagebox.showerror("خطأ", "يرجى ملء جميع الحقول المطلوبة")
             return
@@ -222,7 +396,6 @@ class SuppliersPage:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM suppliers")
             rows = cursor.fetchall()
-            
             for item in self.tree.get_children():
                 self.tree.delete(item)
                 
@@ -246,7 +419,6 @@ class SuppliersPage:
         name = self.name_entry.get()
         contact = self.contact_entry.get()
         address = self.address_entry.get()
-
         if not name and not contact and not address:
             messagebox.showerror("خطأ", "يرجى إدخال بيانات للتحديث")
             return
@@ -315,6 +487,7 @@ class SuppliersPage:
     def back_to_main(self):
         self.window.destroy()
         self.main_app.root.deiconify()
+        self.main_app.root.deiconify()  
 
 
 class FabricsPage:
@@ -322,15 +495,17 @@ class FabricsPage:
         self.window = window
         self.main_app = main_app
         self.style = AppStyle()
+        self.btnstyle= btn2Style()
         self.setup_ui()
         
-
     def setup_ui(self):
         self.window.title("إدارة الأنسجة")
         self.window.geometry("1200x800")
         self.window.configure(bg=self.style.bg_color)
         
-        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60)
+        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60
+                                ,highlightthickness=1,  
+                                highlightbackground="black")
         header_frame.pack(fill=tk.X)
         
         title_label = tk.Label(header_frame, text="إدارة الأنسجة", 
@@ -343,48 +518,182 @@ class FabricsPage:
         top_btn_frame = tk.Frame(main_frame, bg=self.style.bg_color)
         top_btn_frame.pack(fill=tk.X, pady=10)
         
-        tk.Button(top_btn_frame, text="عرض الكل", font=self.style.font, 
-                command=self.show_fabrics).pack(side=tk.LEFT, padx=5)
-        tk.Button(top_btn_frame, text="الانتقال إلى الموردين", font=self.style.font,
-                command=self.open_suppliers).pack(side=tk.LEFT, padx=5)
-        tk.Button(top_btn_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
-                command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        btnn_frame = tk.LabelFrame(main_frame, text="Manage", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        btnn_frame.pack(fill=tk.X, pady=10)
+        
+        
+        # tk.Button(top_btn_frame, text="عرض الكل", font=self.style.font, 
+        #         command=self.show_fabrics).pack(side=tk.LEFT, padx=5)
+        
+        ctk.CTkButton(btnn_frame,text="عرض الكل"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color=self.btnstyle.hover_color ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        # tk.Button(top_btn_frame, text="الانتقال إلى الموردين", font=self.style.font,
+        #         command=self.open_suppliers).pack(side=tk.LEFT, padx=5)
+        
+        ctk.CTkButton(btnn_frame,text="الانتقال إلى الموردين"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="white" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        # tk.Button(top_btn_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
+        #         command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        ctk.CTkButton(btnn_frame,
+                    text="العودة للصفحة الرئيسية"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="white" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
         
         form_frame = tk.LabelFrame(main_frame, text="بيانات النسيج", font=self.style.title_font,
                                 bg=self.style.bg_color, padx=10, pady=10)
         form_frame.pack(fill=tk.X, pady=10)
         
-        tk.Label(form_frame, text="اسم النسيج:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(form_frame, text=": اسم النسيج", font=self.style.font, bg=self.style.bg_color).grid(row=0
+                                                                                                    , column=2
+                                                                                                    , sticky="e"
+                                                                                                    , padx=5
+                                                                                                    , pady=5)
         self.name_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.name_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.name_entry.grid(row=0,
+                            column=0
+                            , padx=5
+                            , pady=5  )
         
-        tk.Label(form_frame, text="نوع النسيج:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=2, sticky="e", padx=5, pady=5)
+        tk.Label(form_frame, text=": نوع النسيج", font=self.style.font, bg=self.style.bg_color).grid(row=1
+                                                                                                    , column=2
+                                                                                                    , sticky="e"
+                                                                                                    , padx=5
+                                                                                                    , pady=5)
         self.type_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.type_entry.grid(row=0, column=3, padx=5, pady=5)
+        self.type_entry.grid(row=1
+                            , column=0
+                            , padx=5
+                            , pady=5)
         
-        tk.Label(form_frame, text="السعر لكل متر:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(form_frame, text=": السعر لكل متر", font=self.style.font, bg=self.style.bg_color).grid(row=2
+                                                                                                    , column=2
+                                                                                                    , sticky="e"
+                                                                                                    , padx=5
+                                                                                                    , pady=5)
         self.price_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.price_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.price_entry.grid(row=2
+                            , column=0
+                            , padx=5
+                            , pady=5)
         
-        tk.Label(form_frame, text="الكمية المتاحة:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=2, sticky="e", padx=5, pady=5)
+        tk.Label(form_frame, text=": الكمية المتاحة", font=self.style.font, bg=self.style.bg_color).grid(row=0
+                                                                                                    , column=6
+                                                                                                    , sticky="e"
+                                                                                                    , padx=5,
+                                                                                                    pady=5)
         self.quantity_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.quantity_entry.grid(row=1, column=3, padx=5, pady=5)
+        self.quantity_entry.grid(row=0
+                                , column=4
+                                , padx=5
+                                , pady=5)
         
-        tk.Label(form_frame, text="معرف المورد:", font=self.style.font, bg=self.style.bg_color).grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(form_frame, text=": معرف المورد", font=self.style.font, bg=self.style.bg_color).grid(row=1
+                                                                                                    , column=6
+                                                                                                    , sticky="e"
+                                                                                                    , padx=5
+                                                                                                    , pady=5)
         self.supplier_entry = tk.Entry(form_frame, font=self.style.font, width=30)
-        self.supplier_entry.grid(row=2, column=1, padx=5, pady=5)
+        self.supplier_entry.grid(row=1
+                                , column=4
+                                , padx=5
+                                , pady=5)
         
         btn_frame = tk.Frame(form_frame, bg=self.style.bg_color)
         btn_frame.grid(row=3, column=0, columnspan=4, pady=10)
         
-        tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
-                command=self.add_fabric).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
-                command=self.update_fabric).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
-                command=self.delete_fabric).pack(side=tk.LEFT, padx=5)
-        tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
-                command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        # tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
+        #         command=self.add_fabric).pack(side=tk.LEFT, padx=5)
+        
+        ctk.CTkButton(btn_frame,
+                    text="إضافة"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="green" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        # tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
+        #         command=self.update_fabric).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame,
+                    text="تحديث"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="green" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        
+        # tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
+        #         command=self.delete_fabric).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame,
+                    text="حذف"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="red" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
+        
+        # tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
+        #         command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        ctk.CTkButton(btn_frame,
+                    text="مسح الحقول"
+                    ,font=self.btnstyle.btnfont,
+                    hover_color="red" ,
+                    width=self.btnstyle.width,
+                    height=self.btnstyle.height,
+                    border_width=self.btnstyle.brod_bottom,
+                    border_color=self.btnstyle.brod_color,
+                    corner_radius=self.btnstyle.cor_rad,
+                    fg_color=self.btnstyle.btn_color,
+                    text_color="black",
+                    command=self.clear_fields).pack(side=tk.RIGHT, padx=5 , pady =5)
         
         list_frame = tk.LabelFrame(main_frame, text="قائمة الأنسجة", font=self.style.title_font,
                                 bg=self.style.bg_color, padx=10, pady=10)
@@ -437,8 +746,8 @@ class FabricsPage:
             conn = connect_db()
             cursor = conn.cursor()
             sql = """INSERT INTO fabrics 
-                     (fabric_name, fabric_type, price_per_meter, available_quantity, supplier_id) 
-                     VALUES (%s, %s, %s, %s, %s)"""
+                    (fabric_name, fabric_type, price_per_meter, available_quantity, supplier_id) 
+                    VALUES (%s, %s, %s, %s, %s)"""
             cursor.execute(sql, (name, fabric_type, price, quantity, supplier_id))
             conn.commit()
             messagebox.showinfo("نجاح", "تم إضافة النسيج بنجاح")
@@ -504,9 +813,9 @@ class FabricsPage:
             supplier_id = int(supplier_id) if supplier_id else current_data[5]
             
             sql = """UPDATE fabrics SET 
-                     fabric_name=%s, fabric_type=%s, price_per_meter=%s, 
-                     available_quantity=%s, supplier_id=%s 
-                     WHERE fabric_id=%s"""
+                    fabric_name=%s, fabric_type=%s, price_per_meter=%s, 
+                    available_quantity=%s, supplier_id=%s 
+                    WHERE fabric_id=%s"""
             cursor.execute(sql, (name, fabric_type, price, quantity, supplier_id, fabric_id))
             conn.commit()
             messagebox.showinfo("نجاح", "تم تحديث بيانات النسيج بنجاح")
@@ -578,6 +887,14 @@ class FabricsPage:
     def back_to_main(self):
         self.window.destroy()
         self.main_app.root.deiconify()
+
+
+# button = ctk.CTkButton(w, text="Click Me" , fg_color= "green", hover_color="red", text_color="white", corner_radius=5, width=100, height=50, border_width=1, border_color="black")
+# button.place(relx=0.01, rely=0.1 )
+
+# button1= ctk.CTkButton(w, text="Click Me" , fg_color= "green", hover_color="blue", text_color="white", corner_radius=5, width=100, height=50, border_width=1, border_color="black")
+# button1.place(relx=0.01, rely=0.25 )
+
 
 class WorkersPage:
     def __init__(self, window, main_app):
