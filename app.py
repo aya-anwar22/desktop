@@ -22,6 +22,7 @@ class AppStyle:
         self.font = ("Arial", 10)
         self.title_font = ("Arial", 12, "bold")
 
+
 #Home page
 class MainApp:
     def __init__(self, root):
@@ -57,6 +58,21 @@ class MainApp:
                               command=self.open_fabrics)
         fabrics_btn.pack(pady=10, padx=10, side=tk.LEFT)
         
+        workers_btn = tk.Button(btn_frame, text="إدارة العمال", font=self.style.title_font,
+                              bg=self.style.secondary_color, fg="white", width=20, height=2,
+                              command=self.open_workers)
+        workers_btn.pack(pady=10, padx=10, side=tk.LEFT)
+        
+        sales_btn = tk.Button(btn_frame, text="إدارة المبيعات", font=self.style.title_font,
+                            bg=self.style.secondary_color, fg="white", width=20, height=2,
+                            command=self.open_sales)
+        sales_btn.pack(pady=10, padx=10, side=tk.LEFT)
+        
+        inventory_btn = tk.Button(btn_frame, text="إدارة المخزون", font=self.style.title_font,
+                                bg=self.style.secondary_color, fg="white", width=20, height=2,
+                                command=self.open_inventory)
+        inventory_btn.pack(pady=10, padx=10, side=tk.LEFT)
+        
         info_frame = tk.Frame(content_frame, bg=self.style.bg_color)
         info_frame.pack(pady=20)
         
@@ -73,6 +89,21 @@ class MainApp:
         self.root.withdraw()
         fabrics_window = tk.Toplevel()
         FabricsPage(fabrics_window, self)
+        
+    def open_workers(self):
+        self.root.withdraw()
+        workers_window = tk.Toplevel()
+        WorkersPage(workers_window, self)
+        
+    def open_sales(self):
+        self.root.withdraw()
+        sales_window = tk.Toplevel()
+        SalesPage(sales_window, self)
+        
+    def open_inventory(self):
+        self.root.withdraw()
+        inventory_window = tk.Toplevel()
+        InventoryPage(inventory_window, self)
 
 # Suppliers page
 class SuppliersPage:
@@ -284,7 +315,6 @@ class SuppliersPage:
     def back_to_main(self):
         self.window.destroy()
         self.main_app.root.deiconify()
-        self.main_app.root.deiconify()  
 
 
 class FabricsPage:
@@ -544,6 +574,717 @@ class FabricsPage:
 
 
     
+    
+    def back_to_main(self):
+        self.window.destroy()
+        self.main_app.root.deiconify()
+
+class WorkersPage:
+    def __init__(self, window, main_app):
+        self.window = window
+        self.main_app = main_app
+        self.style = AppStyle()
+        self.setup_ui()
+        
+    def setup_ui(self):
+        self.window.title("إدارة العمال")
+        self.window.geometry("1000x700")
+        self.window.configure(bg=self.style.bg_color)
+        
+        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60)
+        header_frame.pack(fill=tk.X)
+        
+        title_label = tk.Label(header_frame, text="إدارة العمال", 
+                            font=("Arial", 16, "bold"), bg=self.style.primary_color, fg="white")
+        title_label.pack(pady=15)
+        
+        top_btn_frame = tk.Frame(self.window, bg=self.style.bg_color)
+        top_btn_frame.pack(fill=tk.X, pady=10)
+        
+        tk.Button(top_btn_frame, text="عرض الكل", font=self.style.font, 
+                command=self.show_workers).pack(side=tk.LEFT, padx=5)
+        tk.Button(top_btn_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
+                command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        form_frame = tk.LabelFrame(self.window, text="بيانات العامل", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        form_frame.pack(fill=tk.X, pady=10, padx=20)
+        
+        tk.Label(form_frame, text="اسم العامل:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        self.name_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.name_entry.grid(row=0, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="المسمى الوظيفي:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        self.job_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.job_entry.grid(row=1, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="رقم الهاتف:", font=self.style.font, bg=self.style.bg_color).grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        self.phone_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.phone_entry.grid(row=2, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="تاريخ التعيين:", font=self.style.font, bg=self.style.bg_color).grid(row=3, column=0, sticky="e", padx=5, pady=5)
+        self.hire_date_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.hire_date_entry.grid(row=3, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="الراتب:", font=self.style.font, bg=self.style.bg_color).grid(row=4, column=0, sticky="e", padx=5, pady=5)
+        self.salary_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.salary_entry.grid(row=4, column=1, padx=5, pady=5)
+        
+        btn_frame = tk.Frame(form_frame, bg=self.style.bg_color)
+        btn_frame.grid(row=5, column=0, columnspan=2, pady=10)
+        
+        tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.add_worker).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.update_worker).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
+                command=self.delete_worker).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
+                command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        
+        list_frame = tk.LabelFrame(self.window, text="قائمة العمال", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        list_frame.pack(fill=tk.BOTH, expand=True, pady=10, padx=20)
+        
+        self.tree = ttk.Treeview(list_frame, columns=("ID", "Name", "Job", "Phone", "HireDate", "Salary"), show="headings", height=15)
+        
+        self.tree.heading("ID", text="المعرف")
+        self.tree.heading("Name", text="اسم العامل")
+        self.tree.heading("Job", text="المسمى الوظيفي")
+        self.tree.heading("Phone", text="رقم الهاتف")
+        self.tree.heading("HireDate", text="تاريخ التعيين")
+        self.tree.heading("Salary", text="الراتب")
+        
+        self.tree.column("ID", width=60, anchor="center")
+        self.tree.column("Name", width=150)
+        self.tree.column("Job", width=120)
+        self.tree.column("Phone", width=120)
+        self.tree.column("HireDate", width=120)
+        self.tree.column("Salary", width=100, anchor="center")
+        
+        scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        
+        self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.tree.bind("<ButtonRelease-1>", self.on_tree_select)
+        
+        self.show_workers()
+    
+    def add_worker(self):
+        name = self.name_entry.get()
+        job = self.job_entry.get()
+        phone = self.phone_entry.get()
+        hire_date = self.hire_date_entry.get()
+        salary = self.salary_entry.get()
+
+        if not name or not job or not phone or not hire_date or not salary:
+            messagebox.showerror("خطأ", "يرجى ملء جميع الحقول المطلوبة")
+            return
+            
+        try:
+            salary = float(salary)
+            
+            conn = connect_db()
+            cursor = conn.cursor()
+            sql = """INSERT INTO workers 
+                     (worker_name, job_title, phone_number, hire_date, salary) 
+                     VALUES (%s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (name, job, phone, hire_date, salary))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم إضافة العامل بنجاح")
+            self.clear_fields()
+            self.show_workers()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيمة صحيحة للراتب")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء الإضافة: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def show_workers(self):
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM workers")
+            rows = cursor.fetchall()
+            
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+                
+            for row in rows:
+                self.tree.insert("", tk.END, values=row)
+                
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء جلب البيانات: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def update_worker(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار عامل للتحديث")
+            return
+            
+        worker_id = self.tree.item(selected_item)["values"][0]
+        name = self.name_entry.get()
+        job = self.job_entry.get()
+        phone = self.phone_entry.get()
+        hire_date = self.hire_date_entry.get()
+        salary = self.salary_entry.get()
+
+        if not name and not job and not phone and not hire_date and not salary:
+            messagebox.showerror("خطأ", "يرجى إدخال بيانات للتحديث")
+            return
+            
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT * FROM workers WHERE worker_id=%s", (worker_id,))
+            current_data = cursor.fetchone()
+            
+            name = name if name else current_data[1]
+            job = job if job else current_data[2]
+            phone = phone if phone else current_data[3]
+            hire_date = hire_date if hire_date else current_data[4]
+            salary = float(salary) if salary else current_data[5]
+            
+            sql = """UPDATE workers SET 
+                     worker_name=%s, job_title=%s, phone_number=%s, 
+                     hire_date=%s, salary=%s 
+                     WHERE worker_id=%s"""
+            cursor.execute(sql, (name, job, phone, hire_date, salary, worker_id))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم تحديث بيانات العامل بنجاح")
+            self.clear_fields()
+            self.show_workers()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيمة صحيحة للراتب")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء التحديث: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def delete_worker(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار عامل للحذف")
+            return
+            
+        worker_id = self.tree.item(selected_item)["values"][0]
+        
+        if messagebox.askyesno("تأكيد", "هل أنت متأكد من حذف هذا العامل؟"):
+            try:
+                conn = connect_db()
+                cursor = conn.cursor()
+                sql = "DELETE FROM workers WHERE worker_id=%s"
+                cursor.execute(sql, (worker_id,))
+                conn.commit()
+                messagebox.showinfo("نجاح", "تم حذف العامل بنجاح")
+                self.show_workers()
+            except Exception as e:
+                messagebox.showerror("خطأ", f"حدث خطأ أثناء الحذف: {str(e)}")
+            finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
+    
+    def clear_fields(self):
+        self.name_entry.delete(0, tk.END)
+        self.job_entry.delete(0, tk.END)
+        self.phone_entry.delete(0, tk.END)
+        self.hire_date_entry.delete(0, tk.END)
+        self.salary_entry.delete(0, tk.END)
+    
+    def on_tree_select(self, event):
+        selected_item = self.tree.selection()
+        if selected_item:
+            values = self.tree.item(selected_item)["values"]
+            self.name_entry.delete(0, tk.END)
+            self.name_entry.insert(0, values[1])
+            self.job_entry.delete(0, tk.END)
+            self.job_entry.insert(0, values[2])
+            self.phone_entry.delete(0, tk.END)
+            self.phone_entry.insert(0, values[3])
+            self.hire_date_entry.delete(0, tk.END)
+            self.hire_date_entry.insert(0, values[4])
+            self.salary_entry.delete(0, tk.END)
+            self.salary_entry.insert(0, values[5])
+    
+    def back_to_main(self):
+        self.window.destroy()
+        self.main_app.root.deiconify()
+
+class SalesPage:
+    def __init__(self, window, main_app):
+        self.window = window
+        self.main_app = main_app
+        self.style = AppStyle()
+        self.setup_ui()
+        
+    def setup_ui(self):
+        self.window.title("إدارة المبيعات")
+        self.window.geometry("1200x800")
+        self.window.configure(bg=self.style.bg_color)
+        
+        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60)
+        header_frame.pack(fill=tk.X)
+        
+        title_label = tk.Label(header_frame, text="إدارة المبيعات", 
+                            font=("Arial", 16, "bold"), bg=self.style.primary_color, fg="white")
+        title_label.pack(pady=15)
+        
+        top_btn_frame = tk.Frame(self.window, bg=self.style.bg_color)
+        top_btn_frame.pack(fill=tk.X, pady=10)
+        
+        tk.Button(top_btn_frame, text="عرض الكل", font=self.style.font, 
+                command=self.show_sales).pack(side=tk.LEFT, padx=5)
+        tk.Button(top_btn_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
+                command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        form_frame = tk.LabelFrame(self.window, text="بيانات البيع", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        form_frame.pack(fill=tk.X, pady=10, padx=20)
+        
+        tk.Label(form_frame, text="معرف النسيج:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        self.fabric_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.fabric_entry.grid(row=0, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="تاريخ البيع:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        self.date_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.date_entry.grid(row=1, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="الكمية المباعة:", font=self.style.font, bg=self.style.bg_color).grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        self.quantity_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.quantity_entry.grid(row=2, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="السعر الإجمالي:", font=self.style.font, bg=self.style.bg_color).grid(row=3, column=0, sticky="e", padx=5, pady=5)
+        self.price_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.price_entry.grid(row=3, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="معرف العامل:", font=self.style.font, bg=self.style.bg_color).grid(row=4, column=0, sticky="e", padx=5, pady=5)
+        self.worker_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.worker_entry.grid(row=4, column=1, padx=5, pady=5)
+        
+        btn_frame = tk.Frame(form_frame, bg=self.style.bg_color)
+        btn_frame.grid(row=5, column=0, columnspan=2, pady=10)
+        
+        tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.add_sale).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.update_sale).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
+                command=self.delete_sale).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
+                command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        
+        list_frame = tk.LabelFrame(self.window, text="قائمة المبيعات", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        list_frame.pack(fill=tk.BOTH, expand=True, pady=10, padx=20)
+        
+        self.tree = ttk.Treeview(list_frame, columns=("ID", "Fabric", "Date", "Quantity", "Price", "Worker"), show="headings", height=15)
+        
+        self.tree.heading("ID", text="المعرف")
+        self.tree.heading("Fabric", text="معرف النسيج")
+        self.tree.heading("Date", text="تاريخ البيع")
+        self.tree.heading("Quantity", text="الكمية المباعة")
+        self.tree.heading("Price", text="السعر الإجمالي")
+        self.tree.heading("Worker", text="معرف العامل")
+        
+        self.tree.column("ID", width=60, anchor="center")
+        self.tree.column("Fabric", width=100, anchor="center")
+        self.tree.column("Date", width=120)
+        self.tree.column("Quantity", width=100, anchor="center")
+        self.tree.column("Price", width=100, anchor="center")
+        self.tree.column("Worker", width=100, anchor="center")
+        
+        scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        
+        self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.tree.bind("<ButtonRelease-1>", self.on_tree_select)
+        
+        self.show_sales()
+    
+    def add_sale(self):
+        fabric_id = self.fabric_entry.get()
+        sale_date = self.date_entry.get()
+        quantity = self.quantity_entry.get()
+        price = self.price_entry.get()
+        worker_id = self.worker_entry.get()
+
+        if not fabric_id or not sale_date or not quantity or not price or not worker_id:
+            messagebox.showerror("خطأ", "يرجى ملء جميع الحقول المطلوبة")
+            return
+            
+        try:
+            fabric_id = int(fabric_id)
+            quantity = int(quantity)
+            price = float(price)
+            worker_id = int(worker_id)
+            
+            conn = connect_db()
+            cursor = conn.cursor()
+            sql = """INSERT INTO sales 
+                     (fabric_id, sale_date, sold_quantity, total_price, worker_id) 
+                     VALUES (%s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (fabric_id, sale_date, quantity, price, worker_id))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم إضافة عملية البيع بنجاح")
+            self.clear_fields()
+            self.show_sales()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيم صحيحة للأرقام")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء الإضافة: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def show_sales(self):
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM sales")
+            rows = cursor.fetchall()
+            
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+                
+            for row in rows:
+                self.tree.insert("", tk.END, values=row)
+                
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء جلب البيانات: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def update_sale(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار عملية بيع للتحديث")
+            return
+            
+        sale_id = self.tree.item(selected_item)["values"][0]
+        fabric_id = self.fabric_entry.get()
+        sale_date = self.date_entry.get()
+        quantity = self.quantity_entry.get()
+        price = self.price_entry.get()
+        worker_id = self.worker_entry.get()
+
+        if not fabric_id and not sale_date and not quantity and not price and not worker_id:
+            messagebox.showerror("خطأ", "يرجى إدخال بيانات للتحديث")
+            return
+            
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT * FROM sales WHERE sale_id=%s", (sale_id,))
+            current_data = cursor.fetchone()
+            
+            fabric_id = int(fabric_id) if fabric_id else current_data[1]
+            sale_date = sale_date if sale_date else current_data[2]
+            quantity = int(quantity) if quantity else current_data[3]
+            price = float(price) if price else current_data[4]
+            worker_id = int(worker_id) if worker_id else current_data[5]
+            
+            sql = """UPDATE sales SET 
+                     fabric_id=%s, sale_date=%s, sold_quantity=%s, 
+                     total_price=%s, worker_id=%s 
+                     WHERE sale_id=%s"""
+            cursor.execute(sql, (fabric_id, sale_date, quantity, price, worker_id, sale_id))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم تحديث عملية البيع بنجاح")
+            self.clear_fields()
+            self.show_sales()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيم صحيحة للأرقام")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء التحديث: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def delete_sale(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار عملية بيع للحذف")
+            return
+            
+        sale_id = self.tree.item(selected_item)["values"][0]
+        
+        if messagebox.askyesno("تأكيد", "هل أنت متأكد من حذف عملية البيع هذه؟"):
+            try:
+                conn = connect_db()
+                cursor = conn.cursor()
+                sql = "DELETE FROM sales WHERE sale_id=%s"
+                cursor.execute(sql, (sale_id,))
+                conn.commit()
+                messagebox.showinfo("نجاح", "تم حذف عملية البيع بنجاح")
+                self.show_sales()
+            except Exception as e:
+                messagebox.showerror("خطأ", f"حدث خطأ أثناء الحذف: {str(e)}")
+            finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
+    
+    def clear_fields(self):
+        self.fabric_entry.delete(0, tk.END)
+        self.date_entry.delete(0, tk.END)
+        self.quantity_entry.delete(0, tk.END)
+        self.price_entry.delete(0, tk.END)
+        self.worker_entry.delete(0, tk.END)
+    
+    def on_tree_select(self, event):
+        selected_item = self.tree.selection()
+        if selected_item:
+            values = self.tree.item(selected_item)["values"]
+            self.fabric_entry.delete(0, tk.END)
+            self.fabric_entry.insert(0, values[1])
+            self.date_entry.delete(0, tk.END)
+            self.date_entry.insert(0, values[2])
+            self.quantity_entry.delete(0, tk.END)
+            self.quantity_entry.insert(0, values[3])
+            self.price_entry.delete(0, tk.END)
+            self.price_entry.insert(0, values[4])
+            self.worker_entry.delete(0, tk.END)
+            self.worker_entry.insert(0, values[5])
+    
+    def back_to_main(self):
+        self.window.destroy()
+        self.main_app.root.deiconify()
+
+class InventoryPage:
+    def __init__(self, window, main_app):
+        self.window = window
+        self.main_app = main_app
+        self.style = AppStyle()
+        self.setup_ui()
+        
+    def setup_ui(self):
+        self.window.title("إدارة المخزون")
+        self.window.geometry("1000x700")
+        self.window.configure(bg=self.style.bg_color)
+        
+        header_frame = tk.Frame(self.window, bg=self.style.primary_color, height=60)
+        header_frame.pack(fill=tk.X)
+        
+        title_label = tk.Label(header_frame, text="إدارة المخزون", 
+                            font=("Arial", 16, "bold"), bg=self.style.primary_color, fg="white")
+        title_label.pack(pady=15)
+        
+        top_btn_frame = tk.Frame(self.window, bg=self.style.bg_color)
+        top_btn_frame.pack(fill=tk.X, pady=10)
+        
+        tk.Button(top_btn_frame, text="عرض الكل", font=self.style.font, 
+                command=self.show_inventory).pack(side=tk.LEFT, padx=5)
+        tk.Button(top_btn_frame, text="العودة للصفحة الرئيسية", font=self.style.font,
+                command=self.back_to_main).pack(side=tk.RIGHT, padx=5)
+        
+        form_frame = tk.LabelFrame(self.window, text="بيانات المخزون", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        form_frame.pack(fill=tk.X, pady=10, padx=20)
+        
+        tk.Label(form_frame, text="معرف النسيج:", font=self.style.font, bg=self.style.bg_color).grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        self.fabric_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.fabric_entry.grid(row=0, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="تاريخ الاستلام:", font=self.style.font, bg=self.style.bg_color).grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        self.date_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.date_entry.grid(row=1, column=1, padx=5, pady=5)
+        
+        tk.Label(form_frame, text="الكمية المستلمة:", font=self.style.font, bg=self.style.bg_color).grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        self.quantity_entry = tk.Entry(form_frame, font=self.style.font, width=30)
+        self.quantity_entry.grid(row=2, column=1, padx=5, pady=5)
+        
+        btn_frame = tk.Frame(form_frame, bg=self.style.bg_color)
+        btn_frame.grid(row=3, column=0, columnspan=2, pady=10)
+        
+        tk.Button(btn_frame, text="إضافة", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.add_inventory).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="تحديث", font=self.style.font, bg=self.style.secondary_color, fg="white",
+                command=self.update_inventory).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="حذف", font=self.style.font, bg="#d32f2f", fg="white",
+                command=self.delete_inventory).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="مسح الحقول", font=self.style.font, 
+                command=self.clear_fields).pack(side=tk.LEFT, padx=5)
+        
+        list_frame = tk.LabelFrame(self.window, text="قائمة المخزون", font=self.style.title_font,
+                                bg=self.style.bg_color, padx=10, pady=10)
+        list_frame.pack(fill=tk.BOTH, expand=True, pady=10, padx=20)
+        
+        self.tree = ttk.Treeview(list_frame, columns=("ID", "Fabric", "Date", "Quantity"), show="headings", height=15)
+        
+        self.tree.heading("ID", text="المعرف")
+        self.tree.heading("Fabric", text="معرف النسيج")
+        self.tree.heading("Date", text="تاريخ الاستلام")
+        self.tree.heading("Quantity", text="الكمية المستلمة")
+        
+        self.tree.column("ID", width=60, anchor="center")
+        self.tree.column("Fabric", width=100, anchor="center")
+        self.tree.column("Date", width=120)
+        self.tree.column("Quantity", width=100, anchor="center")
+        
+        scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        
+        self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.tree.bind("<ButtonRelease-1>", self.on_tree_select)
+        
+        self.show_inventory()
+    
+    def add_inventory(self):
+        fabric_id = self.fabric_entry.get()
+        receipt_date = self.date_entry.get()
+        quantity = self.quantity_entry.get()
+
+        if not fabric_id or not receipt_date or not quantity:
+            messagebox.showerror("خطأ", "يرجى ملء جميع الحقول المطلوبة")
+            return
+            
+        try:
+            fabric_id = int(fabric_id)
+            quantity = int(quantity)
+            
+            conn = connect_db()
+            cursor = conn.cursor()
+            sql = """INSERT INTO inventory 
+                     (fabric_id, receipt_date, received_quantity) 
+                     VALUES (%s, %s, %s)"""
+            cursor.execute(sql, (fabric_id, receipt_date, quantity))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم إضافة المخزون بنجاح")
+            self.clear_fields()
+            self.show_inventory()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيم صحيحة للأرقام")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء الإضافة: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def show_inventory(self):
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM inventory")
+            rows = cursor.fetchall()
+            
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+                
+            for row in rows:
+                self.tree.insert("", tk.END, values=row)
+                
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء جلب البيانات: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def update_inventory(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار مخزون للتحديث")
+            return
+            
+        inventory_id = self.tree.item(selected_item)["values"][0]
+        fabric_id = self.fabric_entry.get()
+        receipt_date = self.date_entry.get()
+        quantity = self.quantity_entry.get()
+
+        if not fabric_id and not receipt_date and not quantity:
+            messagebox.showerror("خطأ", "يرجى إدخال بيانات للتحديث")
+            return
+            
+        try:
+            conn = connect_db()
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT * FROM inventory WHERE inventory_id=%s", (inventory_id,))
+            current_data = cursor.fetchone()
+            
+            fabric_id = int(fabric_id) if fabric_id else current_data[1]
+            receipt_date = receipt_date if receipt_date else current_data[2]
+            quantity = int(quantity) if quantity else current_data[3]
+            
+            sql = """UPDATE inventory SET 
+                     fabric_id=%s, receipt_date=%s, received_quantity=%s 
+                     WHERE inventory_id=%s"""
+            cursor.execute(sql, (fabric_id, receipt_date, quantity, inventory_id))
+            conn.commit()
+            messagebox.showinfo("نجاح", "تم تحديث المخزون بنجاح")
+            self.clear_fields()
+            self.show_inventory()
+        except ValueError:
+            messagebox.showerror("خطأ", "يرجى إدخال قيم صحيحة للأرقام")
+        except Exception as e:
+            messagebox.showerror("خطأ", f"حدث خطأ أثناء التحديث: {str(e)}")
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    def delete_inventory(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showerror("خطأ", "يرجى اختيار مخزون للحذف")
+            return
+            
+        inventory_id = self.tree.item(selected_item)["values"][0]
+        
+        if messagebox.askyesno("تأكيد", "هل أنت متأكد من حذف هذا المخزون؟"):
+            try:
+                conn = connect_db()
+                cursor = conn.cursor()
+                sql = "DELETE FROM inventory WHERE inventory_id=%s"
+                cursor.execute(sql, (inventory_id,))
+                conn.commit()
+                messagebox.showinfo("نجاح", "تم حذف المخزون بنجاح")
+                self.show_inventory()
+            except Exception as e:
+                messagebox.showerror("خطأ", f"حدث خطأ أثناء الحذف: {str(e)}")
+            finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
+    
+    def clear_fields(self):
+        self.fabric_entry.delete(0, tk.END)
+        self.date_entry.delete(0, tk.END)
+        self.quantity_entry.delete(0, tk.END)
+    
+    def on_tree_select(self, event):
+        selected_item = self.tree.selection()
+        if selected_item:
+            values = self.tree.item(selected_item)["values"]
+            self.fabric_entry.delete(0, tk.END)
+            self.fabric_entry.insert(0, values[1])
+            self.date_entry.delete(0, tk.END)
+            self.date_entry.insert(0, values[2])
+            self.quantity_entry.delete(0, tk.END)
+            self.quantity_entry.insert(0, values[3])
     
     def back_to_main(self):
         self.window.destroy()
